@@ -2,7 +2,7 @@ import io
 import threading
 import time
 import cv2
-import Image
+from PIL import Image
 import redis
 from facedetect import detect_face
 
