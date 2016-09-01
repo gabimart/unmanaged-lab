@@ -4,7 +4,8 @@ import time
 import cv2
 from PIL import Image
 import redis
-from facedetect import detect_face
+from facedetect import ai_task
+from config import AV
 
 class Camera(object):
     thread = None  # background thread that reads frames from camera
@@ -52,8 +53,9 @@ class Camera(object):
             ##################################
             ## include computer vision here ##
             ##################################
-            img_face = detect_face(img)
-            imgRGB=cv2.cvtColor(img_face,cv2.COLOR_BGR2RGB)
+            if AV:
+                img = ai_task(img)
+            imgRGB=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
             ##################################
 
             jpg = Image.fromarray(imgRGB)

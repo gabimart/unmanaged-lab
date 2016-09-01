@@ -1,33 +1,13 @@
-#!/usr/bin/python
-RLMS_NAME = 'weblab_instance_name'
-RLMS_PASSWORD = 'weblab_password'
-
-
+from config import WEBLAB_USERNAME, WEBLAB_PASSWORD, APPLICATION_ROOT, PORT
 import json, requests
 from time import strftime
-import os, sys, getopt
+import os
+
+def main():
+    ip= 'localhost:'+str(PORT)+APPLICATION_ROOT
+    username="Tester"
 
 
-def main(argv):
-    ip=""
-    username=""
-
-    try:
-        opts, args = getopt.getopt(argv,"h:u:s:",["user=","server="])
-    except getopt.GetoptError:
-        print 'labSessionCreator.py -u <username> -s <server_ip_adress>'
-        sys.exit(2)
-    print opts
-    print args
-    for opt, arg in opts:
-        if opt == '-h':
-            print 'labSessionCreator.py -u <username> -s <server_ip_adress>'
-            sys.exit()
-        elif opt in ("-u", "--user"):
-            username = arg
-        elif opt in ("-s", "--server"):
-            print ip
-            ip = arg
 #    try:
     session_id,url = createSession(username,ip)
     option = 0
@@ -44,6 +24,8 @@ def main(argv):
 
 #    except:
 #        print 'labSessionCreator.py -u <username> -s <server_ip_adress>'
+
+
 
 
 def createSession(user,ip):
@@ -69,8 +51,8 @@ def createSession(user,ip):
         'server_initial_data' : serialized_server_initial_data,
         'back' : back_url,
     }
-    headers = {'Content-type': 'application/json', 'Accept': 'text/plain','authorization':RLMS_NAME+':'+RLMS_PASSWORD}
-    resp = requests.post(url, data=json.dumps(data), headers=headers, auth=(RLMS_NAME,RLMS_PASSWORD))
+    headers = {'Content-type': 'application/json', 'Accept': 'text/plain','authorization':WEBLAB_USERNAME+':'+WEBLAB_PASSWORD}
+    resp = requests.post(url, data=json.dumps(data), headers=headers, auth=(WEBLAB_USERNAME,WEBLAB_PASSWORD))
     url=json.loads(resp.content).get('url','')
     session_id = json.loads(resp.content).get('session_id','')
 
@@ -81,7 +63,7 @@ def createSession(user,ip):
 def checkStatus(ip, session_id):
     os.system('clear')
     url = 'http://'+ ip +'/weblab/sessions/'+ session_id + '/status'
-    resp = requests.get(url, auth=(RLMS_NAME,RLMS_PASSWORD))
+    resp = requests.get(url, auth=(WEBLAB_USERNAME,WEBLAB_PASSWORD))
     print 'Response: '+ resp.text
 
 def kickOut(ip, session_id):
@@ -89,9 +71,9 @@ def kickOut(ip, session_id):
     url = 'http://'+ ip +'/weblab/sessions/'+ session_id
     data = {'action' : "delete"}
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-    resp = requests.post(url, data=json.dumps(data), headers=headers, auth=(RLMS_NAME,RLMS_PASSWORD))
+    resp = requests.post(url, data=json.dumps(data), headers=headers, auth=(WEBLAB_USERNAME,WEBLAB_PASSWORD))
     print 'Response: '+ resp.text
 
 
 if __name__ == "__main__":
-   main(sys.argv[1:])
+   main()

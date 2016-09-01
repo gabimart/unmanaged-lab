@@ -7,3 +7,4 @@ flask-socketio
 redis
 Pillow
 Flask-BabelEx==0.9.1
+requests

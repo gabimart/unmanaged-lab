@@ -7,7 +7,7 @@ from flask import Flask, Blueprint, session, request
 from flask_socketio import SocketIO
 import redis
 from dummy.controller import DummyController
-from config import APPLICATION_ROOT
+from config import APPLICATION_ROOT, WEB_CAMERA
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -61,7 +61,8 @@ else:
 from app import views
 from app.sessionManager import views
 from app.errorReporter import views
-from app.camera import views
+if WEB_CAMERA:
+    from app.camera import views
 from dummy import views
 from app.sockets import views
 

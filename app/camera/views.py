@@ -4,12 +4,18 @@ import time
 from app.sessionManager.tools import check_permission
 from app import app, video
 
-if app.config['CAMERA'] == 'pi_camera':
-    from app.camera.pi_camera import Camera
-else:
+if app.config['WEB_CAMERA_TYPE'] == 'usb_camera':
     from app.camera.web_camera import Camera
+    camera = Camera()
+elif app.config['WEB_CAMERA_TYPE'] == 'pi_camera':
+    from app.camera.pi_camera import Camera
+    camera = Camera()
+else:
+    print 'Camera type not supported'
+    camera = None
+    #TODO:ADD FAKE CAMERA WITH FIXED IMAGE
 
-camera = Camera()
+
 
 
 def gen(camera):

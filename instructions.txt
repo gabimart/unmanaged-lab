@@ -1,0 +1,33 @@
+#Create virtual enviroment
+# See https://virtualenv.pypa.io/en/stable/installation/
+
+#Install Opencv and move module files from user lib folder tu virtualenv folder
+#On Debian you can install it running:
+
+apt-get install python-opencv
+
+#Install requirements:
+
+pip install -r requirements.txt
+
+#Run the server
+
+python run.py
+
+#If you get some error importing opencv you should install it correctly on the virtual enviroment
+#If you dont want to serve videostreaming from a webcam, you should disable this option on the configuration file
+
+#For generating a experimentation session without integrating the lab with the RLMS Weblab-Deusto (see weblab.deusto.es),
+#run the one of the next commands:
+
+#For debuggin on your local machine:
+python createSession.py
+
+#For generating a session on a remote machine:
+
+python labSessionCreator.py -u USERNAME -s <SERVER_IP_ADRESS>:<PORT>:<LAB_APPLICATION_ROOT>
+
+#For exameple:
+
+python labSessionCreator.py -u john -s 192.168.1.10:8000/labs/dummy
+

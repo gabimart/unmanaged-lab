@@ -1,5 +1,12 @@
 import cv2
-from config import basedir
+from config import basedir, algorithm
+
+
+def ai_task(frame):
+    if algorithm == 'face_detect':
+        return detect_face(frame)
+    else:
+        return frame
 
 def detect_face(frame):
 
